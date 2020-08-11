@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useParams} from 'react-router-dom';
-import Pagination from '../bootstrap/components/Pagination';
+
 
 export default function UserShow(){
 

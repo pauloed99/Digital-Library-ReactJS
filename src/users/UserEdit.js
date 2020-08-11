@@ -89,7 +89,7 @@ export default function UserIndex(){
                             <input type="email" className="form-control" id="email" 
                             readOnly value={state.email}/>
 
-                            <button onClick={edit} className="btn btn-success mt-4">Edit User !</button>
+                            <button onClick={edit} className="btn btn-success mt-4">Editar usuário !</button>
                         </form>
                     </div>
                 </div>

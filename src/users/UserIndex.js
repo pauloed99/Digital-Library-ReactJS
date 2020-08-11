@@ -89,12 +89,12 @@ export default function UserIndex(){
                         <div key ={user.email} 
                         className="card container mt-4 border border-primary bg-info text-white">
                             <div className="card-body">
-                                <p>Firstname : {user.firstname}</p>
-                                <p>Lastname : {user.lastname}</p>
+                                <p>Nome : {user.firstname}</p>
+                                <p>Sobrenome : {user.lastname}</p>
                                 <p>Email : {user.email}</p>
                                 <p>CPF : {user.cpf}</p>
-                                <p>Created_at : {user.created_at}</p>
-                                <p>Update_at : {user.update_at}</p>
+                                <p>Data de criação : {user.created_at}</p>
+                                <p>Data de atualização : {user.update_at}</p>
                             </div>
                         </div>
                     ))
