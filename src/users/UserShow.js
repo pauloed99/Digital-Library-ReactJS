@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useParams} from 'react-router-dom';
 
-
 export default function UserShow(){
 
     const [state, setState] = useState({user : null, isLoaded : false});
@@ -52,7 +51,7 @@ export default function UserShow(){
         }
     }
 
-    if(state.isLoaded === true)
+    if(state.isLoaded)
         return (
             <>
                 <h1 className="text-center text-info display-3">Veja seus dados pessoais na digital-library !</h1>

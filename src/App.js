@@ -11,13 +11,18 @@ import BookEdit from './books/BookEdit'
 import BookImageEdit from './books/BookImageEdit';
 import BookIndex from './books/BookIndex';
 import BookShow from './books/BookShow';
+import UserBooksIndex from './userBooks/UserBooksIndex';
+import UserBooksShow from './userBooks/UserBooksShow';
 import './index.css';
+import Navbar from './bootstrap/components/Navbar';
 
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <Navbar />
+
         <Switch>
           <Route exact path='/' component={Login} />
           <Route path='/register' component={UserCreate} /> 
@@ -30,6 +35,8 @@ function App() {
           <Route path='/books/:id/image/edit' component={BookImageEdit} />
           <Route path='/books/:id/edit' component={BookEdit} />
           <Route exact path='/books/:id/show' component={BookShow} />
+          <Route exact path='/userBooks' component={UserBooksIndex}/>
+          <Route path='/userBooks/:id/show' component={UserBooksShow}/>
         </Switch>
       </Router>
     </div>

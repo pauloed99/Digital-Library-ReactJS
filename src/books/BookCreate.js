@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
 
 export default function BookCreate(){
 
@@ -14,20 +13,19 @@ export default function BookCreate(){
         async function authorization(){
             try {
                 const token = sessionStorage.getItem('token');
-
-                const email = jwt_decode(token).sub;
                 
                 const fetchOptions = {
                     method : 'GET',
                     headers : new Headers({'Authorization' : `bearer ${token}`})
                 };
 
-                const response = await fetch(`http://localhost:8000/api/users/${email}`, fetchOptions);
+                const response = await fetch('http://localhost:8000/api/auth/me', fetchOptions);
 
-                const data = await response.json();
+                const user = await response.json();
 
-                console.log(data);
-                if(data.user.is_admin)
+                console.log(user);
+
+                if(user.is_admin)
                     setState({isLoaded : true});
                 else    
                     setState({isLoaded : false});

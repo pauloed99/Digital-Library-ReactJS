@@ -1,3 +1,4 @@
 body {
-    background-image : url("/livraria-bgi.jpg");
+    background-image : url("/livraria-bgi.jpg"); 
+    padding-top: 65px; 
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useParams} from 'react-router-dom';
 
+
 export default function BookShow(){
 
     const [state, setState] = useState({book : null, isLoaded : false});
@@ -53,6 +54,30 @@ export default function BookShow(){
         }
     }
 
+    async function userBook(e){
+        try {
+            e.preventDefault();
+
+            const token = sessionStorage.getItem('token');
+                
+            const fetchConfig = {
+                method : 'POST',
+                body : JSON.stringify({id : state.book.id}),
+                headers : new Headers({'Content-Type': 'application/json',
+                'Authorization' : `bearer ${token}`})
+            };
+
+            const response = await fetch(`http://localhost:8000/api/userBooks`, fetchConfig);
+
+            const data = await response.json();
+
+            console.log(data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     if(state.isLoaded)
         return (
             <>
@@ -63,7 +88,9 @@ export default function BookShow(){
                     <div className="card-body">
                         <img src={state.book.image} height="300" alt={`Livro de id ${state.book.id}`}/>
                         <hr className="bg-secondary"/>
-                        <p className="mt-4">Id : {state.book.name}</p>
+                        <p className="mt-4">Id : {state.book.id}</p>
+                        <hr className="bg-secondary"/>
+                        <p className="mt-4">Name : {state.book.name}</p>
                         <hr className="bg-secondary"/>
                         <p>Autor : {state.book.author}</p>
                         <hr className="bg-secondary"/>
@@ -78,8 +105,12 @@ export default function BookShow(){
                         <p>Páginas : {state.book.pages}</p>
                         <hr className="bg-secondary"/>
 
+                        <button className="mt-4 btn btn-success" onClick={userBook}>Adicionar livro ao carrinho !</button>
+
+                        <br/>
+
                         <Link to={`/books/${state.book.id}/edit`}>
-                            <button className="btn btn-success">Edit book !</button>
+                            <button className="btn btn-warning mt-4">Edit book !</button>
                         </Link>
 
                         <br/>

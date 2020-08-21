@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
-
 export default function UserPasswordReset(){
     const [state, setState] = useState({password : '', password2 : '', password3 : '', isLoaded : false});
 
@@ -60,30 +59,32 @@ export default function UserPasswordReset(){
         }
     }
 
-    return(
-        <>
-            <h1 className="text-center text-info display-3">Redefina a sua senha !</h1>
-            <hr className="bg-info"/>
+    if(state.isLoaded)
+        return(
+            <>
+                <h1 className="text-center text-info display-3">Redefina a sua senha !</h1>
+                <hr className="bg-info"/>
 
-            <div className="card container mt-4 border border-primary bg-info text-white">
-                <div className="card-body">
-                    <form>
-                        <label htmlFor="password" className="mt-4">Antiga Senha : </label>
-                        <input type="password" className="form-control" id="password" 
-                        placeholder="Digite sua senha" onChange={inputChange} name="password"/>
+                <div className="card container mt-4 border border-primary bg-info text-white">
+                    <div className="card-body">
+                        <form>
+                            <label htmlFor="password" className="mt-4">Antiga Senha : </label>
+                            <input type="password" className="form-control" id="password" 
+                            placeholder="Digite sua senha" onChange={inputChange} name="password"/>
 
-                        <label htmlFor="password2" className="mt-4">Nova Senha : </label>
-                        <input type="password" className="form-control" id="password2" 
-                        placeholder="Digite sua senha" onChange={inputChange} name="password2"/>
+                            <label htmlFor="password2" className="mt-4">Nova Senha : </label>
+                            <input type="password" className="form-control" id="password2" 
+                            placeholder="Digite sua senha" onChange={inputChange} name="password2"/>
 
-                        <label htmlFor="password3" className="mt-4">Senha de confirmação : </label>
-                        <input type="password" className="form-control" id="password3" 
-                        placeholder="Digite sua senha novamente" onChange={inputChange} name="password3"/>
+                            <label htmlFor="password3" className="mt-4">Senha de confirmação : </label>
+                            <input type="password" className="form-control" id="password3" 
+                            placeholder="Digite sua senha novamente" onChange={inputChange} name="password3"/>
 
-                        <button onClick={updatePassword} className="btn btn-success mt-4">Reset Password !</button>
-                    </form>
+                            <button onClick={updatePassword} className="btn btn-success mt-4">Reset Password !</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </>
-    );
+            </>
+        );
+    return null;    
 }

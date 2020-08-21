@@ -2,33 +2,43 @@ import React, { useState, useEffect } from 'react';
 import Pagination from '../bootstrap/components/Pagination';
 import {Link} from 'react-router-dom';
 
+export default function UserBooksIndex(){
 
-export default function BookIndex(){
-
-    const [state, setState] = useState({books : null, isLoaded : false});
+    const [state, setState] = useState({authUser : null, isLoaded : false, users : null});
 
     useEffect(()=>{
-        async function books(){
+        async function userBooks(){
             try {
                 const token = sessionStorage.getItem('token');
-                
+
                 const fetchOptions = {
+                    method : 'POST',
+                    headers : new Headers({'Authorization' : `bearer ${token}`})
+                };
+                
+                const fetchOptions2 = {
                     method : 'GET',
                     headers : new Headers({'Authorization' : `bearer ${token}`})
                 };
-
-                const response = await fetch('http://localhost:8000/api/books', fetchOptions);
-
-                const data = await response.json();
                 
-                setState({isLoaded : true, books : data.books});
+                const response = await fetch('http://localhost:8000/api/auth/me', fetchOptions)
+
+                const response2 = await fetch('http://localhost:8000/api/userBooks', fetchOptions2);
+
+                const user = await response.json();
+
+                const data = await response2.json();
+
+                console.log(data.users);
+                
+                setState({isLoaded : true, user : data.userBooks, authUser : user});
  
             } catch (error) {
                 console.log(error);
             }
         }
 
-        books();
+        userBooks();
     }, []);
 
     async function prevPage(e){
@@ -42,7 +52,7 @@ export default function BookIndex(){
                 headers : new Headers({'Authorization' : `bearer ${token}`})
             };
     
-            const response = await fetch(state.books.next_page_url, 
+            const response = await fetch(state.user.next_page_url, 
             fetchOptions);
 
             const data = await response.json();
@@ -66,7 +76,7 @@ export default function BookIndex(){
                 headers : new Headers({'Authorization' : `bearer ${token}`})
             };
     
-            const response = await fetch(state.books.next_page_url, fetchOptions);
+            const response = await fetch(state.user.next_page_url, fetchOptions);
 
             const data = await response.json();
 
@@ -78,14 +88,15 @@ export default function BookIndex(){
         }
     }
 
-    if(state.isLoaded)
+    if(state.isLoaded && !state.authUser.is_admin)
         return (
-            <>
-                <h1 className="text-center text-info display-3">Livros da digital-library !</h1>
+            <>  
+                <h1 className="text-center text-info display-3">Veja os dados do livro que você adicionou ao seu carrinho ! !</h1>
                 <hr className="bg-info"/>
 
+
                 {
-                    state.books.data.map((book) => (
+                    state.user.data.books.map((book) => (
                         <div key ={book.id} 
                         className="card container mt-4 border border-primary bg-info text-white">
                             <div className="card-body">
@@ -104,10 +115,44 @@ export default function BookIndex(){
                         </div>
                     ))
                 }
+
                 <Pagination prevPage={prevPage} nextPage={nextPage} />
 
             </>
         );
+
+    if(state.isLoaded && state.authUser.is_admin)
+        return (
+            <>  
+                <h1 className="text-center text-info display-3">Veja os livros que os clientes compraram ! !</h1>
+                <hr className="bg-info"/>
+
+
+                {
+                    state.user.data.books.map((book) => (
+                        <div key ={book.id} 
+                        className="card container mt-4 border border-primary bg-info text-white">
+                            <div className="card-body">
+                                <img src={book.image} height="300" alt={`Livro de id ${book.id}`}/>
+                                <hr className="bg-secondary"/>
+                                <p className="mt-4">Id : {book.name}</p>
+                                <hr className="bg-secondary"/>
+                                <p>Autor : {book.author}</p>
+                                <hr className="bg-secondary"/>
+                                <p>Preço : R$ {book.price}</p>
+                                <hr className="bg-secondary"/>
+                                <Link to={`/userBooks/${book.id}/show`}>
+                                    <button className="btn btn-primary">Saiba mais !</button>
+                                </Link>
+                            </div>
+                        </div>
+                    ))
+                }
+
+                <Pagination prevPage={prevPage} nextPage={nextPage} />
+
+            </>
+        )
 
     return null;      
 

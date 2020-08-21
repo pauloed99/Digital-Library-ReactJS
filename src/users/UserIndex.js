@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '../bootstrap/components/Pagination';
 
-
 export default function UserIndex(){
 
     const [state, setState] = useState({users : null, isLoaded : false});
@@ -78,7 +77,7 @@ export default function UserIndex(){
     }
 
     
-    if(state.isLoaded === true)
+    if(state.isLoaded)
         return (
             <>
                 <h1 className="text-center text-info display-3">Usuários da digital-library !</h1>
